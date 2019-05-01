@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <PackageId>SimpleMongoDBWrapper</PackageId>
+        <PackageVersion>1.0.0</PackageVersion>
+        <Authors>Pierluigi Ingrosso</Authors>
+        <Description>.Net Core Class library. Wrapper for MongoDB</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageTags>MongoDB Wrapper</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+        <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
+    </ItemGroup>
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="echo ^>^>^>^>^>^>^>^>^> Copying package file $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg in folder $(ProjectDir)..\..\baget\"/>
+        <Exec Command="cp $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg $(ProjectDir)..\..\baget\"/>
+    </Target>
+</Project>
