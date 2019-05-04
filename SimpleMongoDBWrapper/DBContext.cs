@@ -27,8 +27,8 @@ namespace SimpleMongoDBWrapper {
             // mongo use string for id
             BsonSerializer.RegisterIdGenerator(typeof(string), new StringObjectIdGenerator());
 
-            string databaseName = config.GetConnectionString("DatabaseName");
-            string connectionString = config.GetConnectionString(databaseName);
+            string databaseName = Settings.Instance.DatabaseName;
+            string connectionString = Settings.Instance.ConnectionString(databaseName);
             var client = new MongoClient(connectionString);
             Database = client.GetDatabase(databaseName);
         }

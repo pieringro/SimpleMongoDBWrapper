@@ -12,9 +12,16 @@ namespace SimpleMongoDBWrapper {
     public class Repository<TModel> where TModel : BaseCollection {
         public readonly IMongoCollection<TModel> collection;
 
+        private int itemPerPage;
+
         public Repository() {
             var collectionName = typeof(TModel).Name + "Collection";
             collection = DBContext.Instance.Database.GetCollection<TModel>(collectionName);
+            SetItemPerPage();
+        }
+
+        private void SetItemPerPage() {
+            itemPerPage = Settings.Instance.ItemsPerPage ?? 5;
         }
 
         #region Create
@@ -46,12 +53,11 @@ namespace SimpleMongoDBWrapper {
         }
 
         public async Task<IList<TModel>> GetPage(int page) {
-            int perPage = 5;
-            int itemToSkip = perPage * (page - 1);
+            int itemToSkip = itemPerPage * (page - 1);
             var query = this.collection.Find(x => true);
             var itemsTask = await query
                 .Skip(itemToSkip)
-                .Limit(perPage)
+                .Limit(itemPerPage)
                 .ToListAsync();
             return itemsTask;
         }
