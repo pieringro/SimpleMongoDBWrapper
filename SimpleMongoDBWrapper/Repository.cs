@@ -64,24 +64,27 @@ namespace SimpleMongoDBWrapper {
         #endregion
 
         #region Update
-        public Task UpdateOne(string id, TModel modelIn) {
+        public async Task<bool> UpdateOne(string id, TModel modelIn) {
             isValidObjectId(id);
             if (modelIn.Id == null) {
                 modelIn.Id = id;
             }
-            return this.collection.ReplaceOneAsync(x => x.Id == id, modelIn);
+            var result = await this.collection.ReplaceOneAsync(x => x.Id == id, modelIn);
+            return result.MatchedCount == 1;
         }
         #endregion
 
         #region Delete
-        public Task DeleteOne(TModel model) {
+        public async Task<bool> DeleteOne(TModel model) {
             isValidObjectId(model.Id);
-            return this.collection.DeleteOneAsync(x => x.Id == model.Id);
+            var result = await this.collection.DeleteOneAsync(x => x.Id == model.Id);
+            return result.DeletedCount == 1;
         }
 
-        public Task DeleteOne(string id) {
+        public async Task<bool> DeleteOne(string id) {
             isValidObjectId(id);
-            return this.collection.DeleteOneAsync(x => x.Id == id);
+            var result = await this.collection.DeleteOneAsync(x => x.Id == id);
+            return result.DeletedCount == 1;
         }
         #endregion
 
