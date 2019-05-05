@@ -29,7 +29,10 @@ namespace SimpleMongoDBWrapper {
         public int? ItemsPerPage {
             get {
                 if (_ItemsPerPage == null) {
-                    _ItemsPerPage = int.Parse(Configuration["ItemsPerPage"]);
+                    string itemsPerPageString = Configuration["ItemsPerPage"];
+                    if (itemsPerPageString != null) {
+                        _ItemsPerPage = int.Parse(Configuration["ItemsPerPage"]);
+                    }
                 }
                 return _ItemsPerPage;
             }
