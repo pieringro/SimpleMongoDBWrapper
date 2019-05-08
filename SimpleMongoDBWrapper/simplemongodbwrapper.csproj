@@ -18,7 +18,7 @@
         </ContentWithTargetPath>
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="Pack">
-        <Exec Command="echo ^>^>^>^>^>^>^>^>^> Copying package file $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg in folder $(ProjectDir)..\..\baget\"/>
-        <Exec Command="copy /y $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg $(ProjectDir)..\..\baget\"/>
+        <Exec Condition="'$(OS)' == 'Windows_NT'" Command="echo ^>^>^>^>^>^>^>^>^> Copying package file $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg in folder $(ProjectDir)..\..\baget\"/>
+        <Exec Condition="'$(OS)' == 'Windows_NT'" Command="copy /y $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg $(ProjectDir)..\..\baget\"/>
     </Target>
 </Project>
