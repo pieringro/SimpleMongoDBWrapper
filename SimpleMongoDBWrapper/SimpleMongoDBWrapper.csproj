@@ -23,5 +23,8 @@
     <Target Name="PostBuild" AfterTargets="Pack">
         <Exec Condition="'$(OS)' == 'Windows_NT'" Command="echo ^>^>^>^>^>^>^>^>^> Copying package file $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg in folder $(ProjectDir)..\..\baget\"/>
         <Exec Condition="'$(OS)' == 'Windows_NT'" Command="copy /y $(ProjectDir)$(OutDir)..\$(PackageId).$(PackageVersion).nupkg $(ProjectDir)..\..\baget\"/>
+        
+        <Exec Condition="'$(OS)' == 'Unix'" Command="echo '>>>>>>>>> Copying package file $(ProjectDir)$(OutDir)../$(PackageId).$(PackageVersion).nupkg in folder $(ProjectDir)../../baget/'"/>
+        <Exec Condition="'$(OS)' == 'Unix'" Command="cp -rf $(ProjectDir)$(OutDir)../$(PackageId).$(PackageVersion).nupkg $(ProjectDir)../../baget/"/>
     </Target>
 </Project>
