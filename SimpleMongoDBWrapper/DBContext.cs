@@ -29,7 +29,14 @@ namespace SimpleMongoDBWrapper {
 
             Settings.customConfiguration = config;
             string databaseName = Settings.Instance.DatabaseName;
+            if (databaseName == null) {
+                throw new AppException("Configuration error DatabaseName");
+            }
+
             string connectionString = Settings.Instance.ConnectionString(databaseName);
+            if (connectionString == null) {
+                throw new AppException(string.Format("Configuration error connectionString for databaseName={0}", databaseName));
+            }
             var client = new MongoClient(connectionString);
             Database = client.GetDatabase(databaseName);
         }
