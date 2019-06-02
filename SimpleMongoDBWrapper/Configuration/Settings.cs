@@ -3,8 +3,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace SimpleMongoDBWrapper {
     public class Settings {
-        protected readonly string appSettingsJsonNameFile = "appsettings.json";
-        protected IConfigurationRoot Configuration { get; set; }
+        protected readonly string defaultAppSettingsJsonNameFile = "appsettings.json";
+        protected IConfiguration Configuration { get; set; }
         public bool refreshInstance = false;
 
         private static Settings _instance;
@@ -12,15 +12,23 @@ namespace SimpleMongoDBWrapper {
             get {
                 if (_instance == null || _instance.refreshInstance) {
                     _instance = new Settings();
-                    _instance.buildConfigurations();
+                    if(customConfiguration == null){
+                        _instance.buildConfigurations();
+                    }
+                    else{
+                        _instance.Configuration = customConfiguration;
+                    }
                 }
                 return _instance;
             }
         }
+
+        public static IConfiguration customConfiguration { get; set; }
+
         protected void buildConfigurations() {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(appSettingsJsonNameFile);
+                .AddJsonFile(defaultAppSettingsJsonNameFile);
 
             Configuration = builder.Build();
         }
